@@ -5,14 +5,20 @@ import android.graphics.drawable.Drawable;
 public class App {
     private String name ;
     private Drawable icon ;
+    private String installedDate ;
+    private String appVersion ;
+    private String AppPackage ;
 
     public App() {
 
     }
 
-    public App(String name, Drawable icon) {
+    public App(String name, Drawable icon, String installedDate , String appVersion , String appPackage) {
         this.name = name;
         this.icon = icon;
+        this.installedDate = installedDate;
+        this.appVersion = appVersion ;
+        this.AppPackage = appPackage ;
     }
 
     public String getName() {
@@ -31,11 +37,27 @@ public class App {
         this.icon = icon;
     }
 
-    @Override
-    public String toString() {
-        return "App{" +
-                "name='" + name + '\'' +
-                ", icon=" + icon +
-                '}';
+    public String getInstalledDate() {
+        return installedDate;
+    }
+
+    public void setInstalledDate(String installedDate) {
+        this.installedDate = installedDate;
+    }
+
+    public String getAppVersion() {
+        return appVersion;
+    }
+
+    public void setAppVersion(String appVersion) {
+        this.appVersion = appVersion;
+    }
+
+    public String getAppPackage() {
+        return AppPackage;
+    }
+
+    public void setAppPackage(String appPackage) {
+        AppPackage = appPackage;
     }
 }
