@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/ic_more.xml" value="0.37552083333333336" />
         <entry key="app/src/main/res/drawable/ic_sort.xml" value="0.37552083333333336" />
         <entry key="app/src/main/res/drawable/ic_sort_up_ascending_arrow.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/layout/activity_loading.xml" value="0.359375" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3625" />
         <entry key="app/src/main/res/menu/top_bar_menu.xml" value="0.359375" />
       </map>
