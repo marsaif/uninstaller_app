@@ -1,0 +1,29 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/action_sort"
+        android:icon="@drawable/ic_sort"
+        android:title="sort"
+        app:showAsAction="always"
+        />
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+        android:id="@+id/action_search"
+        android:title="@string/search"
+        app:showAsAction="collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+    <item
+        android:id="@+id/action_refresh"
+        android:title="@string/refresh"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_select_all"
+        android:title="@string/select_all"
+        app:showAsAction="never"/>
+
+
+</menu>
