@@ -5,26 +5,29 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.app_uninstaller.R;
+import com.example.app_uninstaller.adapters.CustomAdapter;
 import com.example.app_uninstaller.models.App;
 import com.example.app_uninstaller.utils.AppUtils;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    List<App> list ;
+    public List<App> list ;
+    private RecyclerView recyclerView ;
+    private CustomAdapter customAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         list = AppUtils.getInstalledApps(this);
-        System.out.println(list);
+       // System.out.println(list);
+
+        customAdapter = new CustomAdapter(list,this) ;
+        recyclerView = findViewById(R.id.recyler_view) ;
+        recyclerView.setAdapter(customAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
 
     }
