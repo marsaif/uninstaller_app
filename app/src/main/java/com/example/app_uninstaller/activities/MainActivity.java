@@ -7,9 +7,13 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,7 +52,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_bar_menu, menu);
-
+        MenuItem menuItem = menu.findItem(R.id.action_search) ;
+        SearchView searchView =(SearchView) menuItem.getActionView() ;
+        EditText editText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
+        editText.setTextColor(Color.WHITE);
+        editText.setHintTextColor(Color.WHITE);
+        ImageView imageViewClose = searchView.findViewById(androidx.appcompat.R.id.search_close_btn);
+        imageViewClose.setImageResource(R.drawable.ic_cancel);
         return true ;
     }
 

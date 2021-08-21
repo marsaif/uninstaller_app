@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_cancel.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.37552083333333336" />
+        <entry key="app/src/main/res/drawable/ic_left_arrow.xml" value="0.21666666666666667" />
+        <entry key="app/src/main/res/drawable/ic_loupe.xml" value="0.37552083333333336" />
         <entry key="app/src/main/res/drawable/ic_more.xml" value="0.37552083333333336" />
         <entry key="app/src/main/res/drawable/ic_sort.xml" value="0.37552083333333336" />
         <entry key="app/src/main/res/drawable/ic_sort_up_ascending_arrow.xml" value="0.21666666666666667" />

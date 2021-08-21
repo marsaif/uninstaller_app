@@ -11,8 +11,9 @@
     <!-- "Mark Favorite", should appear as action button if possible -->
     <item
         android:id="@+id/action_search"
+        android:icon="@drawable/ic_search"
         android:title="@string/search"
-        app:showAsAction="collapseActionView"
+        app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
     <item

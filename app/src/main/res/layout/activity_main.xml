@@ -16,6 +16,7 @@
         app:titleTextColor="@color/white"
         app:subtitleTextColor="@color/white"
         app:titleMarginStart="25dp"
+        app:collapseIcon="@drawable/ic_left_arrow"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
