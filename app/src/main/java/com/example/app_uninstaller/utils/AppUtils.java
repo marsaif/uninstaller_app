@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 
 import com.example.app_uninstaller.models.App;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,20 @@ public class AppUtils {
             {
               String appName =(String) pm.getApplicationLabel(app) ;
               Drawable icon = (Drawable) pm.getApplicationIcon(app) ;
-              App application = new App(appName,icon);
+              String appPackage = app.packageName ;
+              String InstalledDate = "" ;
+              String appVersion = "" ;
+              try {
+                Long installTime = pm.getPackageInfo(app.packageName,0).firstInstallTime ;
+                appVersion = pm.getPackageInfo(app.packageName,0).versionName ;
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy");
+                InstalledDate = sdf.format(installTime);
+
+              } catch (Exception e)
+              {
+                  System.out.println("err : " + e.getMessage());
+              }
+              App application = new App(appName,icon,InstalledDate,appVersion,appPackage);
               list.add(application) ;
             }
         }
