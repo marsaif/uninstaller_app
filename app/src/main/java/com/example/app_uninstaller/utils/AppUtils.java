@@ -14,12 +14,18 @@ import java.util.List;
 
 public class AppUtils {
 
-    public List<App> getInstalledApps(Context context)
+    PackageManager pm ;
+
+    public AppUtils(Context context)
+    {
+        pm = context.getPackageManager() ;
+    }
+
+    public List<App> getInstalledApps()
     {
 
         List<App> list = new ArrayList<>() ;
 
-        PackageManager pm = context.getPackageManager();
         List<ApplicationInfo> apps = pm.getInstalledApplications(0);
 
         for(ApplicationInfo app : apps) {
@@ -38,12 +44,12 @@ public class AppUtils {
               String appPackage = app.packageName ;
 
               // get the installation date of the
-              String appInstalledDate = getAppInstalledDate(appPackage,pm) ;
+              String appInstalledDate = getAppInstalledDate(appPackage) ;
 
               // get the version of the app
-              String appVersion = getAppVersion(appPackage,pm) ;
+              String appVersion = getAppVersion(appPackage) ;
 
-              double appSize = getAppSize(appPackage,pm) ;
+              double appSize = getAppSize(appPackage) ;
 
               App application = new App(appName,appIcon,appInstalledDate,appVersion,appPackage,appSize);
               list.add(application) ;
@@ -54,7 +60,7 @@ public class AppUtils {
     }
 
 
-    public String getAppInstalledDate(String packageName , PackageManager pm)
+    public String getAppInstalledDate(String packageName)
     {
         String appInstalledDate = "" ;
         try {
@@ -68,7 +74,7 @@ public class AppUtils {
         return appInstalledDate ;
     }
 
-    public String getAppVersion(String packageName , PackageManager pm)
+    public String getAppVersion(String packageName )
     {
         String appVersion = "" ;
         try {
@@ -79,7 +85,7 @@ public class AppUtils {
         return appVersion ;
     }
 
-    public double getAppSize(String packageName , PackageManager pm)
+    public double getAppSize(String packageName)
     {
         double size = 0 ;
         try {
@@ -92,6 +98,18 @@ public class AppUtils {
 
         size = size / 1000000.0;
         return size ;
+    }
+
+    public boolean isAppDeleted(String packageName)
+    {
+        boolean appDeleted = true ;
+        try {
+            pm.getApplicationInfo(packageName,0);
+            appDeleted = false ;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return appDeleted ;
     }
 
 }
