@@ -25,9 +25,10 @@ import com.example.app_uninstaller.utils.AppUtils;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    public List<App> list ;
+    private List<App> list ;
     private RecyclerView recyclerView ;
     private CustomAdapter customAdapter;
+    private AppUtils appUtils ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +38,17 @@ public class MainActivity extends AppCompatActivity {
 
         // add Toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        myToolbar.setLogo(getDrawable(R.drawable.ic_delete));
+        myToolbar.setLogo(getDrawable(R.drawable.ic_delete)); // set the logo of toolbar
         setSupportActionBar(myToolbar);
 
 
         // change the icon of 3dots
         myToolbar.setOverflowIcon(getDrawable(R.drawable.ic_more));
 
+        appUtils = new AppUtils() ;
 
-
-        list = AppUtils.getInstalledApps(this);
-       // System.out.println(list);
+        // get list of user apps
+        list = appUtils.getInstalledApps(this);
 
         customAdapter = new CustomAdapter(list,this) ;
         recyclerView = findViewById(R.id.recyler_view) ;
