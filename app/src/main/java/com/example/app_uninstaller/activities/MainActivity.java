@@ -15,13 +15,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.app_uninstaller.R;
 import com.example.app_uninstaller.adapters.CustomAdapter;
 import com.example.app_uninstaller.models.App;
 import com.example.app_uninstaller.utils.AppUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -97,32 +101,104 @@ public class MainActivity extends AppCompatActivity {
 
     public void showSortPopUp()
     {
-        String[] list = new String[] { "Name" , "Size" , "Date" } ;
+        String[] listItems = new String[] { "By Name (ASC)" ,
+                "By Name (DESC)" ,
+                "By Size (ASC)" ,
+                "By Size (DESC)" ,
+                "By Installed Date (ASC)",
+                "By Installed Date (DESC)" } ;
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
-
-        alert.setTitle("Sort by") ;
-        alert.setSingleChoiceItems(list, -1, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(MainActivity.this, list[which], Toast.LENGTH_SHORT).show();
-            }
-        }) ;
-        alert.setPositiveButton("DESCENDING", new DialogInterface.OnClickListener() {
+        alert.setTitle("Sort") ;
+        alert.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
+                switch (listItems[which])
+                {
+                    case "By Name (ASC)" :
+                        sortListByNameAsc();
+                        break;
+                    case "By Name (DESC)" :
+                        sortListByNameDesc();
+                        break;
+                    case "By Size (ASC)" :
+                        sortListBySizeAsc();
+                        break;
+                    case "By Size (DESC)" :
+                        sortListBySizeDesc();
+                        break;
+                    case "By Installed Date (ASC)" :
+                        sortListByInstalledDateAsc() ;
+                        break;
+                    case "By Installed Date (DESC)" :
+                        sortListByInstalledDateDesc();
+                        break;
+                }
+                customAdapter.notifyDataSetChanged();
             }
         }) ;
-
-        alert.setNegativeButton("ASCENDING", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        }) ;
-
 
         alert.show() ;
     }
+
+    public void sortListByNameAsc()
+    {
+        Collections.sort(list, (o1, o2) -> o1.getName().compareTo(o2.getName()));
+    }
+
+    public void sortListByNameDesc()
+    {
+        Collections.sort(list, (o1, o2) -> o2.getName().compareTo(o1.getName()));
+    }
+
+    public void sortListBySizeAsc()
+    {
+        Collections.sort(list, (Comparator<App>) (o1, o2) -> Double.compare(o1.getAppSize(),o2.getAppSize()));
+    }
+
+    public void sortListBySizeDesc()
+    {
+        Collections.sort(list, (Comparator<App>) (o1, o2) -> Double.compare(o2.getAppSize(),o1.getAppSize()));
+    }
+
+    public void sortListByInstalledDateAsc()
+    {
+        Collections.sort(list, new Comparator<App>() {
+            @Override
+            public int compare(App o1, App o2) {
+                Date dateO1 = null ;
+                Date dateO2 = null ;
+                try {
+                     dateO1 = new SimpleDateFormat("EEE, d MMM yyyy").parse(o1.getInstalledDate()) ;
+                     dateO2 = new SimpleDateFormat("EEE, d MMM yyyy").parse(o2.getInstalledDate()) ;
+                } catch (ParseException e) {
+                    System.out.println("eeee : " + e.getMessage());
+                    e.printStackTrace();
+                }
+                return Long.compare(dateO1.getTime(),dateO2.getTime()) ;
+            }
+        });
+    }
+
+    public void sortListByInstalledDateDesc()
+    {
+        Collections.sort(list, new Comparator<App>() {
+            @Override
+            public int compare(App o1, App o2) {
+                Date dateO1 = null ;
+                Date dateO2 = null ;
+                try {
+                    dateO1 = new SimpleDateFormat("EEE, d MMM yyyy").parse(o1.getInstalledDate()) ;
+                    dateO2 = new SimpleDateFormat("EEE, d MMM yyyy").parse(o2.getInstalledDate()) ;
+                } catch (ParseException e) {
+                    System.out.println("eeee : " + e.getMessage());
+                    e.printStackTrace();
+                }
+                return Long.compare(dateO2.getTime(),dateO1.getTime()) ;
+            }
+        });
+    }
+
+
 }
