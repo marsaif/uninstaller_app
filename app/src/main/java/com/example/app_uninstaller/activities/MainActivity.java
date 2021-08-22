@@ -1,6 +1,7 @@
 package com.example.app_uninstaller.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -9,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,21 +22,23 @@ import android.widget.ImageView;
 import com.example.app_uninstaller.R;
 import com.example.app_uninstaller.adapters.CustomAdapter;
 import com.example.app_uninstaller.models.App;
+import com.example.app_uninstaller.preferences.AppSharedPreference;
 import com.example.app_uninstaller.utils.AppUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class MainActivity extends AppCompatActivity {
     private List<App> list ;
     private RecyclerView recyclerView ;
     private CustomAdapter customAdapter;
     private AppUtils appUtils ;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
         // change the icon of 3dots
         myToolbar.setOverflowIcon(getDrawable(R.drawable.ic_more));
 
-        appUtils = new AppUtils() ;
+        appUtils = new AppUtils(this) ;
 
         // get list of user apps
-        list = appUtils.getInstalledApps(this);
+        list = appUtils.getInstalledApps();
 
         customAdapter = new CustomAdapter(list,this) ;
         recyclerView = findViewById(R.id.recyler_view) ;
@@ -200,5 +205,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100)
+        {
+            AppSharedPreference appSharedPreference = AppSharedPreference.getInstance(this) ;
+            String appPackage = appSharedPreference.getPackageName() ;
+            int position = appSharedPreference.getItemPostion() ;
+            if (appUtils.isAppDeleted(appPackage))
+            {
+                list.remove(position);
+                customAdapter.notifyItemRemoved(position);
+                customAdapter.removeItemFromFullList(appPackage);
+            }
+            appSharedPreference.removeItem();
+            appSharedPreference.removePackageName();
+        }
+    }
 }

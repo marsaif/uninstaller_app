@@ -1,6 +1,7 @@
 package com.example.app_uninstaller.adapters;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,9 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app_uninstaller.R;
 import com.example.app_uninstaller.models.App;
+import com.example.app_uninstaller.preferences.AppSharedPreference;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> implements Filterable {
 
@@ -58,7 +61,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                 String appPackage = list.get(position).getAppPackage() ;
                 Uri uri = Uri.parse("package:"+appPackage);
                 Intent intent =new Intent(Intent.ACTION_UNINSTALL_PACKAGE, uri);
-                context.startActivity(intent) ;
+                ((Activity) context).startActivityForResult(intent,100);
+
+                AppSharedPreference appSharedPreference = AppSharedPreference.getInstance(context);
+                appSharedPreference.setPackageName(appPackage);
+                appSharedPreference.setItemPosition(position);
+
 
             }
         });
@@ -151,4 +159,17 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             notifyDataSetChanged();
         }
     } ;
+
+
+    public void removeItemFromFullList(String appPackage)
+    {
+        fullList.removeIf(new Predicate<App>() {
+            @Override
+            public boolean test(App app) {
+                return app.getAppPackage().equals(appPackage) ;
+            }
+        });
+    }
+
+
 }
