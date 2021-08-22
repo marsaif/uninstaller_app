@@ -61,6 +61,36 @@
             />
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="14dp">
+            <TextView
+                android:id="@+id/app_size"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:text="size"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#98C677"
+                />
+
+            <TextView
+                android:id="@+id/size"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Mb"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#98C677"
+                />
+
+        </LinearLayout>
+
+
+
+
     </LinearLayout>
 
     <ImageView

@@ -50,7 +50,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         holder.getImageViewAppIcon().setImageDrawable(list.get(position).getIcon());
         holder.getTextViewAppDate().setText(list.get(position).getInstalledDate());
         holder.getTextViewAppVersion().setText(list.get(position).getAppVersion());
-
+        holder.getTextViewAppSize().setText(String.format("%.2f", list.get(position).getAppSize()));
         holder.getImageViewDelete().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,6 +77,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         private final TextView textViewAppDate ;
         private final TextView textViewAppVersion ;
         private final ImageView imageViewDelete ;
+        private final TextView textViewAppSize ;
 
         public ViewHolder(View view) {
             super(view);
@@ -86,6 +87,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             textViewAppDate = (TextView) view.findViewById(R.id.app_date) ;
             textViewAppVersion = (TextView) view.findViewById(R.id.app_version) ;
             imageViewDelete = (ImageView) view.findViewById(R.id.delete);
+            textViewAppSize = (TextView) view.findViewById(R.id.app_size) ;
 
         }
 
@@ -109,6 +111,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             return imageViewDelete;
         }
 
+        public TextView getTextViewAppSize() {
+            return textViewAppSize;
+        }
     }
 
 
