@@ -1,11 +1,14 @@
 package com.example.app_uninstaller.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,16 +18,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.app_uninstaller.R;
 import com.example.app_uninstaller.models.App;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>{
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> implements Filterable {
 
-     List<App> list ;
-     Context context ;
+    private  List<App> list ;
+    private List<App> fullList ;
+    private Context context;
 
     public CustomAdapter(List<App> list , Context context) {
         this.list = list ;
+        fullList = new ArrayList<>(list) ;
         this.context = context ;
+
     }
 
     @NonNull
@@ -38,7 +45,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.getTextViewAppName().setText(list.get(position).getName());
         holder.getImageViewAppIcon().setImageDrawable(list.get(position).getIcon());
         holder.getTextViewAppDate().setText(list.get(position).getInstalledDate());
@@ -47,9 +54,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         holder.getImageViewDelete().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri uri = Uri.parse("package:"+list.get(position).getAppPackage());
+
+                String appPackage = list.get(position).getAppPackage() ;
+                Uri uri = Uri.parse("package:"+appPackage);
                 Intent intent =new Intent(Intent.ACTION_UNINSTALL_PACKAGE, uri);
                 context.startActivity(intent) ;
+
             }
         });
     }
@@ -58,6 +68,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public int getItemCount() {
         return list.size();
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
@@ -99,4 +110,40 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         }
 
     }
+
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    private Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<App> list = new ArrayList<>() ;
+            if (constraint.length() == 0)
+            {
+                list.addAll(fullList);
+            } else {
+                for (App app : fullList)
+                {
+                    if (app.getName().toLowerCase().contains(constraint.toString().toLowerCase()))
+                    {
+                        list.add(app) ;
+                    }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults() ;
+            filterResults.values = list ;
+            return filterResults ;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            list.clear();
+            list.addAll((List<App>)results.values);
+            notifyDataSetChanged();
+        }
+    } ;
 }

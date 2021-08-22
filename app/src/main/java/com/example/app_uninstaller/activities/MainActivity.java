@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
-
     }
 
     @Override
@@ -63,6 +62,18 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.top_bar_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.action_search) ;
         SearchView searchView =(SearchView) menuItem.getActionView() ;
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                customAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         EditText editText = searchView.findViewById(androidx.appcompat.R.id.search_src_text);
         editText.setTextColor(Color.WHITE);
         editText.setHintTextColor(Color.WHITE);
