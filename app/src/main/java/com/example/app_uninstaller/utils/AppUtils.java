@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 
 import com.example.app_uninstaller.models.App;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,13 +38,14 @@ public class AppUtils {
               String appPackage = app.packageName ;
 
               // get the installation date of the
-              String appInstalledDate = getAppInstalledDate(app,pm) ;
+              String appInstalledDate = getAppInstalledDate(appPackage,pm) ;
 
               // get the version of the app
-              String appVersion = getAppVersion(app,pm) ;
+              String appVersion = getAppVersion(appPackage,pm) ;
 
+              double appSize = getAppSize(appPackage,pm) ;
 
-              App application = new App(appName,appIcon,appInstalledDate,appVersion,appPackage);
+              App application = new App(appName,appIcon,appInstalledDate,appVersion,appPackage,appSize);
               list.add(application) ;
             }
         }
@@ -52,11 +54,11 @@ public class AppUtils {
     }
 
 
-    public String getAppInstalledDate(ApplicationInfo app , PackageManager pm)
+    public String getAppInstalledDate(String packageName , PackageManager pm)
     {
         String appInstalledDate = "" ;
         try {
-            Long installTime = pm.getPackageInfo(app.packageName,0).firstInstallTime;
+            Long installTime = pm.getPackageInfo(packageName,0).firstInstallTime;
             SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy");
             appInstalledDate = sdf.format(installTime);
         } catch (PackageManager.NameNotFoundException e) {
@@ -66,15 +68,30 @@ public class AppUtils {
         return appInstalledDate ;
     }
 
-    public String getAppVersion(ApplicationInfo app , PackageManager pm)
+    public String getAppVersion(String packageName , PackageManager pm)
     {
         String appVersion = "" ;
         try {
-            appVersion = pm.getPackageInfo(app.packageName,0).versionName ;
+            appVersion = pm.getPackageInfo(packageName,0).versionName ;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
         return appVersion ;
+    }
+
+    public double getAppSize(String packageName , PackageManager pm)
+    {
+        double size = 0 ;
+        try {
+            System.out.println(pm.getApplicationInfo(packageName, 0).publicSourceDir);
+            File file = new File(pm.getApplicationInfo(packageName, 0).publicSourceDir);
+            size = file.length() ;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        size = size / 1000000.0;
+        return size ;
     }
 
 }
