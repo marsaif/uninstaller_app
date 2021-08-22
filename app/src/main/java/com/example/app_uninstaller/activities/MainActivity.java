@@ -8,10 +8,10 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,29 +27,30 @@ import com.example.app_uninstaller.utils.AppUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Predicate;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     private List<App> list ;
     private RecyclerView recyclerView ;
     private CustomAdapter customAdapter;
     private AppUtils appUtils ;
+    private SwipeRefreshLayout swipeRefreshLayout ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        swipeRefreshLayout = findViewById(R.id.swiperefresh) ;
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         // add Toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         myToolbar.setLogo(getDrawable(R.drawable.ic_delete)); // set the logo of toolbar
         setSupportActionBar(myToolbar);
-
 
         // change the icon of 3dots
         myToolbar.setOverflowIcon(getDrawable(R.drawable.ic_more));
@@ -222,5 +223,13 @@ public class MainActivity extends AppCompatActivity {
             appSharedPreference.removeItem();
             appSharedPreference.removePackageName();
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        list.clear();
+        list.addAll(appUtils.getInstalledApps());
+        customAdapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
     }
 }
