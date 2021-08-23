@@ -1,4 +1,4 @@
-# app_uninstaller
+# Uninstaller 
 
 ## Description
 
