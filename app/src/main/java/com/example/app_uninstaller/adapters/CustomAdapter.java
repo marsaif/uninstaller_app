@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -70,6 +72,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
             }
         });
+
+        holder.getLinearLayout().setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                return false;
+            }
+        });
     }
 
     @Override
@@ -86,7 +95,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         private final TextView textViewAppVersion ;
         private final ImageView imageViewDelete ;
         private final TextView textViewAppSize ;
-
+        private final LinearLayout linearLayout ;
         public ViewHolder(View view) {
             super(view);
 
@@ -96,7 +105,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             textViewAppVersion = (TextView) view.findViewById(R.id.app_version) ;
             imageViewDelete = (ImageView) view.findViewById(R.id.delete);
             textViewAppSize = (TextView) view.findViewById(R.id.app_size) ;
-
+            linearLayout = (LinearLayout) view.findViewById(R.id.linearLayout) ;
         }
 
         public TextView getTextViewAppName() {
@@ -121,6 +130,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         public TextView getTextViewAppSize() {
             return textViewAppSize;
+        }
+
+        public LinearLayout getLinearLayout() {
+            return linearLayout;
         }
     }
 

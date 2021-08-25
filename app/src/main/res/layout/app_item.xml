@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:orientation="horizontal"
     android:background="@color/blue"
@@ -31,19 +32,20 @@
                 android:text="Application name"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:layout_marginHorizontal="20dp"
+                android:layout_marginLeft="20dp"
+
                 android:textColor="@color/white"
                 />
 
             <TextView
+                android:layout_marginLeft="10dp"
                 android:id="@+id/app_version"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="version"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
